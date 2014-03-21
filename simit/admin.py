@@ -27,13 +27,13 @@ class CustomAreaAdmin(admin.ModelAdmin):
     def get_urls(self):
         urls = super(CustomAreaAdmin, self).get_urls()
         my_urls = patterns('', url(r'^settings/?([0-9]+)?$', self.admin_site.admin_view(self.settings),
-                                   name="cms_customarea_settings"))
+                                   name="simit_customarea_settings"))
         return my_urls + urls
 
 
     def save_model(self, request, obj, form, change):
         if change:
-            cache.delete("cms:variable:%s" % obj.slug)
+            cache.delete("simit:variable:%s" % obj.slug)
         return super(CustomAreaAdmin, self).save_model(request, obj, form, change)
 
 
