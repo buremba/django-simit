@@ -1,4 +1,4 @@
-include INSTALL LICENSE MANIFEST.in README AUTHORS
+include INSTALL LICENSE MANIFEST.in README.md AUTHORS
 recursive-include simit/locale *
 recursive-include simit/templates *
 recursive-include simit/static *
