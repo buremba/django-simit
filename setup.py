@@ -9,6 +9,7 @@ setup(name='django_simit',
       license='MIT',
       packages=find_packages(),
       zip_safe=False,
+      dependency_links = ["https://github.com/buremba/django-simit/tarball/master#egg=django-simit"],
       install_requires=[
           'django>=1.5,<1.7', 'feincms', 'git+git://github.com/buremba/django-admin-tools.git'
       ])
