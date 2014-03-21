@@ -1,0 +1,4 @@
+include INSTALL LICENSE MANIFEST.in README AUTHORS
+recursive-include simit/locale *
+recursive-include simit/templates *
+recursive-include simit/static *

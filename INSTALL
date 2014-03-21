@@ -1,0 +1,7 @@
+Thanks for downloading django-simit.
+
+This application requires Python 2.6 or later and Django 1.5 or newer.
+
+To install django-admin-tools, run the following command inside this directory::
+
+    python setup.py install

@@ -1,0 +1,155 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-12-31 01:28+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: __init__.py:11
+msgid "CMS"
+msgstr ""
+
+#: __init__.py:19
+msgid "Settings"
+msgstr ""
+
+#: admin.py:39 admin.py:69
+msgid "Custom Area"
+msgstr ""
+
+#: admin.py:93 models.py:99
+msgid "parent menu"
+msgstr ""
+
+#: admin.py:127
+msgid "Add child page"
+msgstr ""
+
+#: admin.py:129
+msgid "View on site"
+msgstr ""
+
+#: models.py:35 models.py:46 models.py:63 models.py:87
+msgid "name"
+msgstr ""
+
+#: models.py:41
+msgid "custom area category"
+msgstr ""
+
+#: models.py:42
+msgid "custom area categories"
+msgstr ""
+
+#: models.py:47 models.py:65
+msgid "slug"
+msgstr ""
+
+#: models.py:48
+msgid "value"
+msgstr ""
+
+#: models.py:49
+msgid "type"
+msgstr ""
+
+#: models.py:51
+msgid "extra date"
+msgstr ""
+
+#: models.py:52 models.py:67 models.py:102
+msgid "description"
+msgstr ""
+
+#: models.py:58
+msgid "custom areas"
+msgstr ""
+
+#: models.py:59
+msgid "custom area"
+msgstr ""
+
+#: models.py:64
+msgid "content"
+msgstr ""
+
+#: models.py:66
+msgid "tags"
+msgstr ""
+
+#: models.py:68 models.py:98
+msgid "title"
+msgstr ""
+
+#: models.py:69
+msgid "last modified"
+msgstr ""
+
+#: models.py:73
+msgid "pages"
+msgstr ""
+
+#: models.py:74
+msgid "page"
+msgstr ""
+
+#: models.py:82
+msgid "menu attribute schemas"
+msgstr ""
+
+#: models.py:83
+msgid "menu attribute schema"
+msgstr ""
+
+#: models.py:90
+msgid "menu sections"
+msgstr ""
+
+#: models.py:91
+msgid "menu section"
+msgstr ""
+
+#: models.py:103
+msgid "url"
+msgstr ""
+
+#: models.py:105
+msgid "url pattern"
+msgstr ""
+
+#: models.py:117
+msgid "menus"
+msgstr ""
+
+#: models.py:118
+msgid "menu"
+msgstr ""
+
+#: models.py:125
+msgid "menu attribute choices"
+msgstr ""
+
+#: models.py:126
+msgid "menu attribute choice"
+msgstr ""
+
+#: models.py:134 models.py:135
+msgid "menu attribute"
+msgstr ""
+
+#: templates/admin/customarea_edit.html:56
+msgid "Save"
+msgstr ""

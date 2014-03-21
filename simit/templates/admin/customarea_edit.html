@@ -1,0 +1,63 @@
+{% extends "admin/base_site.html" %}
+{% load i18n admin_static admin_modify %}
+{% load admin_urls %}
+
+{% block extrastyle %}{{ block.super }}
+    <link rel="stylesheet" type="text/css" href="{% static "admin/css/forms.css" %}"/>{% endblock %}
+
+{% block content_title %}
+    <h1 style="display:inline-block">{{ activeCategory.name }}</h1>{% if perms.simit.add_customarea %}
+    <div style="display:inline-block"><a href="{% url "admin:simit_customarea_add" %}">Add new field</a></div>{% endif %}
+{% endblock %}
+
+{% block extra_menu %}
+    <div class="extra-menu">
+        {% for category in categories %}
+            <a style="{% if category.id == activeCategory.id %}font-weight:bold{% endif %}" href="{% url opts|admin_urlname:'settings' %}/{{ category.id }}">{{ category.name }}</a>
+        {% endfor %}
+    </div>
+{% endblock %}
+
+{% block content %}
+    {% if VariableForm %}
+        {{ VariableForm.media }}
+        <form action="" method="post">
+            {% csrf_token %}
+            {% if VariableForm|length > 0 %}
+
+                <div class="fieldset {{ fieldset.classes }}">
+                {% if fieldset.name %}<h3 class="fieldsetHeader">{{ fieldset.name }}</h3>{% endif %}
+                <fieldset class="module aligned {{ fieldset.classes }}">
+                    {% for field in VariableForm %}
+                        <div class="form-row {% if VariableForm.errors %} errors{% endif %} {% for field in VariableForm %}{% if field.name %} field-{{ field.name }}{% endif %}{% endfor %}">
+                            {{ form.errors }}
+                            <div {% if not line.fields|length_is:'1' %} class="field-box{% if field.field.name %} field-{{ field.field.name }}{% endif %}{% if not field.is_readonly and field.errors %} errors{% endif %}"{% endif %}>
+                                <div class="label">
+                                    {{ field.label_tag }} {% if field.required %} *{% endif %}
+                                </div>
+                                <div class="fieldcontent">
+                                    <div class="field">
+                                        {% if field.is_readonly %}
+                                            <p>{{ field.contents|linebreaksbr }}</p>
+                                        {% else %}
+                                            {{ field }}
+                                        {% endif %}
+                                    </div>
+                                    {% if field.field.help_text %}
+                                        <p class="help">{{ field.field.help_text|safe }}</p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            {% if perms.simit.change_customarea %} <a href="{% url "admin:simit_customarea_change" field.field.row_id %}">Edit</a> {% endif %}
+                        </div>
+                    {% endfor %}
+                </fieldset>
+                <div class="submit-row">
+                    <input type="submit" value="{% trans 'Save' %}" class="default" name="_save"/>
+                </div>
+            {% else %}
+                You have to specify the category.
+            {% endif %}
+        </form>
+    {% endif %}
+{% endblock %}
