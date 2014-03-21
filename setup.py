@@ -9,6 +9,7 @@ setup(name='django_simit',
       author_email='emrekabakci@gmail.com',
       license='MIT',
       packages=find_packages(),
+      include_package_data=True,
       zip_safe=False,
       dependency_links=["https://github.com/buremba/django-admin-tools/tarball/master#egg=django-admin-tools"],
       install_requires=[
