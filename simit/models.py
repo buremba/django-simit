@@ -19,8 +19,15 @@ CUSTOM_TYPES = [
     (9, "COLOR"),
 ]
 
-if not hasattr(settings, "SIMIT_MENU_URLPATTERNS_MODULE"):
-    raise Exception("You need to set SIMIT_MENU_URLPATTERNS_MODULE in your settings file.")
+
+def get_urlconf():
+    try:
+        if not hasattr(settings, "SIMIT_MENU_URLPATTERNS_MODULE"):
+            return list(__import__(settings.ROOT_URLCONF).urls.urlpatterns)
+        else:
+            return list(__import__(settings.SIMIT_MENU_URLPATTERNS_MODULE).urls.urlpatterns)
+    except Exception:
+        return []
 
 
 def dictfetchall(cursor):
@@ -97,7 +104,7 @@ class Menu(MPTTModel):
     url_name = models.CharField(_('url pattern'), max_length=255, blank=True, null=True,
                                 choices=[(name, name) for name in
                                          load_url_pattern_names(
-                                             lazy(lambda: list(__import__(settings.SIMIT_MENU_URLPATTERNS_MODULE).urls.urlpatterns), list)(),
+                                             lazy(get_urlconf, list)(),
                                              include_with_args=False)])
     section = models.ForeignKey("simit.MenuSection")
     is_active = models.BooleanField(default=True)
