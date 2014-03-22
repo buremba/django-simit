@@ -10,12 +10,8 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from admin_tools.admin import RichModelAdmin
-
-from simit.models import Page, Menu, MenuSection
-from eav.admin import BaseEntityAdmin
-from eav.forms import BaseDynamicEntityForm
 from forms import VariableForm
-from models import CustomArea, CustomAreaCategory
+from models import CustomArea, CustomAreaCategory, Page, Menu, MenuSection
 
 
 class CustomAreaAdmin(admin.ModelAdmin):
@@ -95,10 +91,6 @@ class PageAdmin(ModelAdmin):
     )
 
 
-class MenuAdminForm(BaseDynamicEntityForm):
-    model = Menu
-
-
 class MainMenuFilter(admin.SimpleListFilter):
     title = _('parent menu')
     parameter_name = 'main_cat'
@@ -122,12 +114,11 @@ class MainMenuFilter(admin.SimpleListFilter):
             return children & queryset
 
 
-class MenuAdmin(TreeEditor, BaseEntityAdmin, RichModelAdmin):
+class MenuAdmin(TreeEditor, RichModelAdmin):
     list_filter = ("parent", )
     require_one_of = ('page', 'url_name', 'url')
     search_fields = ('title', 'description')
     list_filter = ('section', MainMenuFilter)
-    form = MenuAdminForm
 
     def _actions_column(self, page):
         preview_url = "../../r/%s/%s/" % (ContentType.objects.get_for_model(self.model).id, page.id)

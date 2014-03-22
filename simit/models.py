@@ -5,6 +5,7 @@ from mptt.models import MPTTModel
 from simit.helper import load_url_pattern_names
 from tinymce.models import HTMLField
 from django.conf import settings
+from django.utils.functional import lazy
 
 CUSTOM_TYPES = [
     (1, "TEXT"),
@@ -46,7 +47,7 @@ class CustomArea(models.Model):
     slug = models.CharField(_('slug'), max_length=100, unique=True)
     value = models.TextField(_('value'), )
     type = models.IntegerField(_('type'), choices=CUSTOM_TYPES)
-    category = models.ForeignKey(CustomAreaCategory)
+    category = models.ForeignKey("simit.CustomAreaCategory")
     extra = models.TextField(_('extra data'), blank=True)
     description = models.CharField(_('description'), max_length=250, blank=True)
 
@@ -92,13 +93,13 @@ class Menu(MPTTModel):
     parent = TreeForeignKey('self', null=True, blank=True, related_name='children', verbose_name=_('parent menu'))
     description = models.TextField(_('description'), blank=True)
     url = models.CharField(_('url'), max_length=255, blank=True, null=True)
-    page = models.ForeignKey(Page, blank=True, null=True)
+    page = models.ForeignKey("simit.Page", blank=True, null=True)
     url_name = models.CharField(_('url pattern'), max_length=255, blank=True, null=True,
                                 choices=[(name, name) for name in
                                          load_url_pattern_names(
-                                             __import__(settings.SIMIT_MENU_URLPATTERNS_MODULE).urls.urlpatterns,
+                                             lazy(lambda: list(__import__(settings.SIMIT_MENU_URLPATTERNS_MODULE).urls.urlpatterns), list)(),
                                              include_with_args=False)])
-    section = models.ForeignKey(MenuSection)
+    section = models.ForeignKey("simit.MenuSection")
     is_active = models.BooleanField(default=True)
 
     def __unicode__(self):
