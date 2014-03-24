@@ -11,7 +11,7 @@ CUSTOM_TYPES = [
     (1, "TEXT"),
     (2, "DATE"),
     (3, "NUMBER"),
-    (4, "RICH TEXT"),
+    (4, "RICH_TEXT"),
     (5, "BOOLEAN"),
     (6, "CHOICES"),
     (7, "FILE"),

@@ -13,6 +13,7 @@ from django.conf import settings
 plural_forms_re = re.compile(r'^(?P<value>"Plural-Forms.+?\\n")\s*$', re.MULTILINE | re.DOTALL)
 reserve_variable_options = {t[1]: t[0] for t in CUSTOM_TYPES}
 
+
 class Command(NoArgsCommand):
     option_list = NoArgsCommand.option_list + (
         make_option('--all', '-a', action='store_true', dest='all',
@@ -46,7 +47,10 @@ class Command(NoArgsCommand):
             try:
                 module_path = os.path.join(os.path.dirname(__import__(app).__file__), 'templates')
                 for filename in self.find_files(module_path):
-                    t = Template(open(filename).read())
+                    try:
+                        t = Template(open(filename).read())
+                    except Exception, e:
+                        self.stdout.write("%s couldn't parse: %s\n" % (filename, e.message))
 
                     def process(nodelist):
                         for node in nodelist:
