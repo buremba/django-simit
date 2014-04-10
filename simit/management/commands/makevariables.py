@@ -13,6 +13,8 @@ from django.conf import settings
 plural_forms_re = re.compile(r'^(?P<value>"Plural-Forms.+?\\n")\s*$', re.MULTILINE | re.DOTALL)
 reserve_variable_options = {t[1]: t[0] for t in CUSTOM_TYPES}
 
+def is_constant(variable):
+    return variable[0] == variable[-1]
 
 class Command(NoArgsCommand):
     option_list = NoArgsCommand.option_list + (
@@ -57,12 +59,16 @@ class Command(NoArgsCommand):
                             if node.__class__ == VariableTag and node.var_type is not None:
                                 if node.slug in variable_slug:
                                     continue
-                                if node.category is not None:
-                                    category, _ = CustomAreaCategory.objects.get_or_create(name=node.category)
+                                if not (is_constant(node.slug) and (node.category is not None and is_constant(node.category)) and is_constant(node.var_type)):
+                                    self.stdout.write('found %s in %s %s but it seems like a variable. passing... \n' % (node.slug, filename, node.source[1]))
+                                    continue
+                                slug = node.slug.strip('"')
+                                category = node.category.strip('"')
+                                var_type = node.var_type.strip('"')
+                                if category is not None:
+                                    category, _ = CustomAreaCategory.objects.get_or_create(name=category)
                                 else:
                                     category, _ = CustomAreaCategory.objects.get_or_create(name="General")
-
-                                var_type = node.var_type.strip('"')
 
                                 if var_type in reserve_variable_options:
                                     type_id = reserve_variable_options[var_type]
@@ -71,13 +77,16 @@ class Command(NoArgsCommand):
 
                                 variable_slug.add(node.slug)
 
+                                description = node.description.strip('"') if is_constant(node.description) else None
+                                name = node.name.strip('"') if is_constant(node.name) else None
+
                                 try:
-                                    CustomArea(slug=node.slug, type=type_id, name=node.name, category=category,
-                                               description=node.description).save()
+                                    CustomArea(slug=slug, type=type_id, name=name, category=category,
+                                               description=description).save()
                                 except IntegrityError:
                                     #self.stdout.write("found %s but it's already saved in database\n" % (node.slug,))
-                                    variable = CustomArea.objects.get(slug=node.slug)
-                                    if variable.description is None and node.description is not None:
+                                    variable = CustomArea.objects.get(slug=slug)
+                                    if variable.description is None and description is not None:
                                         variable.description = node.description
                                         variable.save()
                                     continue
@@ -90,7 +99,6 @@ class Command(NoArgsCommand):
                     process(t.nodelist)
             except ImportError:
                 continue
-
 
     def find_files(self, root):
         """
