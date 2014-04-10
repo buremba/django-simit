@@ -37,7 +37,7 @@ class VariableTag(template.Node):
 @register.tag
 def variable(_, token):
     try:
-        args = re.findall(r'\"(.+?)\"', token.contents)
+        args = re.findall(r'(\".+?\")', token.contents)
         slug = args[0]
         if len(args) > 1:
             name = args[1]
