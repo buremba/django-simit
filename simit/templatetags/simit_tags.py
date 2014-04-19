@@ -42,11 +42,11 @@ def variable(_, token):
         if len(args) > 1:
             name = args[1]
             var_type = args[2]
-            category = args[3]
-            desc = args[4]
+            category = args[3] if len(args) > 3 else None
+            desc = args[4] if len(args) > 4 else None
             return VariableTag(slug, name, var_type, category, desc)
 
-    except ValueError,e :
+    except ValueError, e:
         raise template.TemplateSyntaxError, "%r tag requires arguments" % token.contents.split()[0]
 
     return VariableTag(slug)

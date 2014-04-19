@@ -6,6 +6,9 @@ from simit.helper import load_url_pattern_names
 from tinymce.models import HTMLField
 from django.conf import settings
 from django.utils.functional import lazy
+from django.conf import settings
+
+SIMIT_PAGE_URL_NAME = getattr(settings, "SIMIT_PAGE_URL_NAME")
 
 CUSTOM_TYPES = [
     (1, "TEXT"),
@@ -80,9 +83,14 @@ class Page(models.Model):
         verbose_name_plural = _("pages")
         verbose_name = _("page")
 
-    def __str__(self):
+    def __unicode__(self):
         return self.name
 
+    def get_absolute_url(self):
+        if SIMIT_PAGE_URL_NAME:
+            return reverse(SIMIT_PAGE_URL_NAME, args=(self.slug,))
+        else:
+            return "/page/%s" % self.slug
 
 class MenuSection(models.Model):
     name = models.CharField(_('name'), max_length=255)
