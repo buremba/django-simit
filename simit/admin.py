@@ -8,6 +8,7 @@ from feincms.admin.tree_editor import TreeEditor
 from django.utils.translation import ugettext_lazy as _
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
+from django.shortcuts import get_object_or_404
 from django.template import RequestContext
 from admin_tools.admin import RichModelAdmin
 from forms import VariableForm
@@ -43,7 +44,7 @@ class CustomAreaAdmin(admin.ModelAdmin):
                 return render_to_response('admin/customarea_edit.html', {"title": _('Custom Area')},
                                           RequestContext(request))
         else:
-            category = CustomAreaCategory.objects.get(pk=category)
+            category = get_object_or_404(CustomAreaCategory, pk=category)
 
         q = {'fieldQuerySet': CustomArea.objects.filter(category=category.id)}
 
