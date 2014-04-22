@@ -6,6 +6,7 @@ from simit.helper import load_url_pattern_names
 from tinymce.models import HTMLField
 from django.conf import settings
 from django.utils.functional import lazy
+from django.core.urlresolvers import reverse
 
 CUSTOM_TYPES = [
     (1, "TEXT"),
