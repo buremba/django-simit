@@ -80,11 +80,11 @@ class Page(models.Model):
         verbose_name_plural = _("pages")
         verbose_name = _("page")
 
-    def __str__(self):
+    def __unicode__(self):
         return self.name
 
     def get_absolute_url(self):
-        url_conf = getattr(settings, 'shop_page')
+        url_conf = getattr(settings, 'SIMIT_PAGE_URL_NAME')
         if url_conf:
             return reverse(url_conf, args=(self.slug))
         else:
@@ -118,6 +118,14 @@ class Menu(MPTTModel):
 
     def __unicode__(self):
         return self.title
+        
+    def get_url():
+        if self.page is not None:
+            return menu.page.get_absolute_url()
+        elif self.url_name is not None:
+            return reverse(menu.url_name)
+        else:
+            return self.url
 
     class Meta:
         verbose_name_plural = _("menus")
