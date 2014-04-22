@@ -77,11 +77,6 @@ class FetchMenu(template.Node):
         menus = cache.get(cache_key)
         if menus is None:
             menus = Menu.objects.filter(section__name=lookup)
-            for menu in menus:
-                if menu.page is not None:
-                    menu.url = ''
-                elif menu.url_name is not None:
-                    menu.url = reverse(menu.url_name)
             cache.set(cache_key, menus, CACHE_TIMEOUT)
         context[self.variable] = menus
         return ''
