@@ -122,9 +122,9 @@ class Menu(MPTTModel):
         
     def get_url(self):
         if self.page is not None:
-            return menu.page.get_absolute_url()
+            return self.page.get_absolute_url()
         elif self.url_name is not None:
-            return reverse(menu.url_name)
+            return reverse(self.url_name)
         else:
             return self.url
 
