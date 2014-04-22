@@ -13,6 +13,7 @@ from django.template import RequestContext
 from admin_tools.admin import RichModelAdmin
 from forms import VariableForm
 from models import CustomArea, CustomAreaCategory, Page, Menu, MenuSection
+from django.core.cache import cache
 
 
 class CustomAreaAdmin(admin.ModelAdmin):
@@ -68,8 +69,10 @@ class CustomAreaAdmin(admin.ModelAdmin):
                             action_flag=CHANGE,
                             change_message="Changed from settings page"
                         )
-
+                        cache.delete('simit:variable:%s' % key)
                         item.update(value=value)
+
+
                 return HttpResponseRedirect(request.get_full_path())
 
         return render_to_response('admin/customarea_edit.html',
@@ -134,9 +137,19 @@ class MenuAdmin(TreeEditor, RichModelAdmin):
     def __unicode__(self):
         return self.name
 
+    def save_model(self, request, obj, form, change):
+        if change:
+            cache.delete("simit:menu:%s" % obj.section.name)
+        return super(MenuAdmin, self).save_model(request, obj, form, change)
+
 
 class MenuSectionAdmin(ModelAdmin):
     search_fields = ('name',)
+
+    def save_model(self, request, obj, form, change):
+        if change:
+            cache.delete("simit:menu:%s" % MenuSection.objects.get(id=obj.id).name)
+        return super(MenuSectionAdmin, self).save_model(request, obj, form, change)
 
 
 admin.site.register(Menu, MenuAdmin)
