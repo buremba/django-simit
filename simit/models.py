@@ -87,7 +87,7 @@ class Page(models.Model):
     def get_absolute_url(self):
         url_conf = getattr(settings, 'SIMIT_PAGE_URL_NAME')
         if url_conf:
-            return reverse(url_conf, args=(self.slug))
+            return reverse(url_conf, args=(self.slug,))
         else:
             return '/page/%s' % self.slug
 
