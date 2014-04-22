@@ -119,7 +119,7 @@ class Menu(MPTTModel):
     def __unicode__(self):
         return self.title
         
-    def get_url():
+    def get_url(self):
         if self.page is not None:
             return menu.page.get_absolute_url()
         elif self.url_name is not None:
