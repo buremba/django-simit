@@ -138,7 +138,7 @@ class MenuAdmin(TreeEditor, RichModelAdmin):
         return self.name
 
     def save_model(self, request, obj, form, change):
-        if change:
+        if change or obj.pk is None:
             cache.delete("simit:menu:%s" % obj.section.name)
         return super(MenuAdmin, self).save_model(request, obj, form, change)
 
