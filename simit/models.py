@@ -70,7 +70,7 @@ class CustomArea(models.Model):
 class Page(models.Model):
     name = models.CharField(_('name'), max_length=255)
     content = HTMLField(_('content'), )
-    slug = models.SlugField(_('slug'), )
+    slug = models.SlugField(_('slug'), unique=True)
     tags = models.CharField(_('tags'), max_length=255, blank=True)
     description = models.TextField(_('description'), blank=True)
     title = models.CharField(_('title'), max_length=255, blank=True)
