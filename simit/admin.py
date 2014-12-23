@@ -55,23 +55,22 @@ class CustomAreaAdmin(admin.ModelAdmin):
             form = VariableForm(request.POST, request.FILES, **q)
             if form.is_valid():
                 for key, value in form.cleaned_data.iteritems():
-                    item = CustomArea.objects.filter(slug=key)
+                    item = CustomArea.objects.get(slug=key)
                     from django.contrib.admin.models import LogEntry, CHANGE
                     from django.utils.encoding import force_unicode
 
-                    row = item[0]
-                    if row.value != value:
+                    if item.value != value:
                         LogEntry.objects.log_action(
                             user_id=request.user.pk,
                             content_type_id=ContentType.objects.get_for_model(CustomArea).pk,
-                            object_id=row.pk,
-                            object_repr=force_unicode(row),
+                            object_id=item.pk,
+                            object_repr=force_unicode(item),
                             action_flag=CHANGE,
                             change_message="Changed from settings page"
                         )
                         cache.delete('simit:variable:%s' % key)
-                        item.update(value=value)
-
+                        item.value = value
+                        item.save()
 
                 return HttpResponseRedirect(request.get_full_path())
 
