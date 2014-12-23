@@ -62,6 +62,9 @@ def variable(slug):
     except ObjectDoesNotExist:
         val = ""
 
+    if val.type == 5:
+        val = True if val == "True" else False
+
     cache.set(cache_key, val, CACHE_TIMEOUT)
     return val
 
