@@ -30,7 +30,14 @@
                 <fieldset class="module aligned {{ fieldset.classes }}">
                     {% for field in VariableForm %}
                         <div class="form-row {% if VariableForm.errors %} errors{% endif %} {% for field in VariableForm %}{% if field.name %} field-{{ field.name }}{% endif %}{% endfor %}">
-                            {{ form.errors }}
+                            {% if field.errors %}
+                                <ol>
+                                {% for error in field.errors %}
+                                    <li><strong>{{ error|escape }}</strong></li>
+                                {% endfor %}
+                                </ol>
+                            {% endif %}
+
                             <div {% if not line.fields|length_is:'1' %} class="field-box{% if field.field.name %} field-{{ field.field.name }}{% endif %}{% if not field.is_readonly and field.errors %} errors{% endif %}"{% endif %}>
                                 <div class="label">
                                     {{ field.label_tag }} {% if field.required %} *{% endif %}

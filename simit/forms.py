@@ -26,7 +26,7 @@ class VariableForm(forms.Form):
             elif i.type == 4:
                 self.fields[i.slug] = forms.CharField(label=i.name, initial=i.value, help_text=i.description, widget=TinyMCE(attrs={'cols': 80, 'rows': 30}))
             elif i.type == 5:
-                self.fields[i.slug] = forms.BooleanField(label=i.name, initial=i.value, help_text=i.description)
+                self.fields[i.slug] = forms.BooleanField(required=False, label=i.name, initial=i.value, help_text=i.description)
             elif i.type == 6:
                 choices = json.loads(i.extra)
 
