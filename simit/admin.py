@@ -59,7 +59,7 @@ class CustomAreaAdmin(admin.ModelAdmin):
                     from django.contrib.admin.models import LogEntry, CHANGE
                     from django.utils.encoding import force_unicode
 
-                    if item.value != value:
+                    if item.value != str(value):
                         LogEntry.objects.log_action(
                             user_id=request.user.pk,
                             content_type_id=ContentType.objects.get_for_model(CustomArea).pk,
