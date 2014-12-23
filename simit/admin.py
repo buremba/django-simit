@@ -59,7 +59,8 @@ class CustomAreaAdmin(admin.ModelAdmin):
                     from django.contrib.admin.models import LogEntry, CHANGE
                     from django.utils.encoding import force_unicode
 
-                    if item.value != str(value):
+                    val = unicode(value)
+                    if item.value != val:
                         LogEntry.objects.log_action(
                             user_id=request.user.pk,
                             content_type_id=ContentType.objects.get_for_model(CustomArea).pk,
@@ -69,7 +70,7 @@ class CustomAreaAdmin(admin.ModelAdmin):
                             change_message="Changed from settings page"
                         )
                         cache.delete('simit:variable:%s' % key)
-                        item.value = value
+                        item.value = val
                         item.save()
 
                 return HttpResponseRedirect(request.get_full_path())
