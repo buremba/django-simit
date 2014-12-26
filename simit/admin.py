@@ -1,9 +1,12 @@
+import os
 from django.conf import settings
 from django.conf.urls import patterns, url
 from django.contrib import admin
 from django.contrib.admin import ModelAdmin
 from django.contrib.contenttypes.models import ContentType
 from django.core.cache import cache
+from django.core.files.base import ContentFile
+from django.core.files.storage import default_storage
 from feincms.admin.tree_editor import TreeEditor
 from django.utils.translation import ugettext_lazy as _
 from django.http import HttpResponseRedirect
@@ -28,12 +31,10 @@ class CustomAreaAdmin(admin.ModelAdmin):
                                    name="simit_customarea_settings"))
         return my_urls + urls
 
-
     def save_model(self, request, obj, form, change):
         if change:
             cache.delete("simit:variable:%s" % obj.slug)
         return super(CustomAreaAdmin, self).save_model(request, obj, form, change)
-
 
     def settings(self, request, category):
         categories = CustomAreaCategory.objects.all()
@@ -70,9 +71,12 @@ class CustomAreaAdmin(admin.ModelAdmin):
                             change_message="Changed from settings page"
                         )
                         cache.delete('simit:variable:%s' % key)
-                        item.value = val
-                        item.save()
+                        if item.type in [7, 8]:
+                            val = default_storage.save(os.path.join("simit/images", val), ContentFile(value.read()))
 
+                        item.value = val
+
+                        item.save()
                 return HttpResponseRedirect(request.get_full_path())
 
         return render_to_response('admin/customarea_edit.html',

@@ -1,11 +1,12 @@
 import re
+
 from django import template
 from django.core.exceptions import ObjectDoesNotExist
-from django.core.urlresolvers import reverse
 from django.template import Library
 from django.core.cache import cache
+
 from simit.models import CustomArea, Menu
-from django.conf import settings
+
 
 register = Library()
 CACHE_TIMEOUT = 60 * 60 * 24
