@@ -58,13 +58,16 @@ def variable(slug):
     c = cache.get(cache_key)
     if c is not None:
         return c
+
     try:
-        object = CustomArea.objects.get(slug=slug)
+        area = CustomArea.objects.get(slug=slug)
+        area_type = area.type
         val = object.value
     except ObjectDoesNotExist:
+        area_type = None
         val = ""
 
-    if object.type == 5:
+    if area_type == 5:
         val = True if val == "True" else False
 
     cache.set(cache_key, val, CACHE_TIMEOUT)
