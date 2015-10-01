@@ -62,7 +62,7 @@ def variable(slug):
     try:
         area = CustomArea.objects.get(slug=slug)
         area_type = area.type
-        val = object.value
+        val = area.value
     except ObjectDoesNotExist:
         area_type = None
         val = ""
